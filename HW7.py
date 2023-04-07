@@ -1,7 +1,7 @@
 
-# Your name:
-# Your student id:
-# Your email:
+# Your name: Serena Shen
+# Your student id: 18762564
+# Your email: serenash@umich.edu
 # List who you have worked with on this project:
 
 import unittest
@@ -53,7 +53,31 @@ def make_positions_table(data, cur, conn):
 #     created for you -- see make_positions_table above for details.
 
 def make_players_table(data, cur, conn):
-    pass
+    id_list = []
+    name_list = []
+    pos_list = []
+    pos_id_list = []
+    birth_list = []
+    nation_list = []
+
+    for player in data:
+        id_list.append(player['id'])
+        name_list.append(player['name'])
+        pos_list.append(player['position'])
+        birth_list.append(player['birthyear'])
+        nation_list.append(player['nationality'])
+
+    for position in pos_list:
+        cur.execute("SELECT id FROM Positions WHERE name=?", (position,))
+        pos_id_list.append(cur.fetchone()[0])
+    
+    cur.execute('CREATE TABLE IF NOT EXISTS Players (id INTEGER PRIMARY KEY, name TEXT, position_id INTEGER, birthyear INTEGER, nationality TEXT)')
+
+    for i in range(len(id_list)):
+        cur.execute("INSERT INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)",
+                    (id_list[i], name_list[i], pos_id_list[i], birth_list[i], nation_list[i]))
+    conn.commit()
+
 
 ## [TASK 2]: 10 points
 # Finish the function nationality_search
@@ -66,7 +90,32 @@ def make_players_table(data, cur, conn):
         # the player's name, their position_id, and their nationality.
 
 def nationality_search(countries, cur, conn):
-    pass
+    name_list = []
+    pos_id_list = []
+    nation_list = []
+    tuple_list = []
+
+    for country in countries:
+        cur.execute('SELECT name FROM Players WHERE nationality= ?', (country,))
+        names = cur.fetchall()
+        for name in names:
+            name_list.append(name[0])
+    
+        cur.execute('SELECT position_id FROM Players WHERE nationality= ?', (country,))
+        positions = cur.fetchall()
+        for position in positions:
+            pos_id_list.append(position[0])
+    
+        cur.execute('SELECT nationality FROM Players WHERE nationality= ?', (country,))
+        nationalities = cur.fetchall()
+        for nationality in nationalities:
+            nation_list.append(nationality[0])
+    
+    for i in range(len(name_list)):
+        tuple_list.append((name_list[i], pos_id_list[i], nation_list[i]))
+    
+    return tuple_list
+    
 
 ## [TASK 3]: 10 points
 # finish the function birthyear_nationality_search
