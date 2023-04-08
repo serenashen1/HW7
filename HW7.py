@@ -2,7 +2,7 @@
 # Your name: Serena Shen
 # Your student id: 18762564
 # Your email: serenash@umich.edu
-# List who you have worked with on this project:
+# List who you have worked with on this project: Charlotte Parent
 
 import unittest
 import sqlite3
@@ -60,23 +60,29 @@ def make_players_table(data, cur, conn):
     birth_list = []
     nation_list = []
 
-    for player in data:
+    for player in data['squad']:
         id_list.append(player['id'])
         name_list.append(player['name'])
         pos_list.append(player['position'])
-        birth_list.append(player['birthyear'])
+        birth_list.append(int(player['dateOfBirth'][:4]))
         nation_list.append(player['nationality'])
 
     for position in pos_list:
-        cur.execute("SELECT id FROM Positions WHERE name=?", (position,))
+        cur.execute("SELECT id FROM Positions WHERE position=?", (position,))
         pos_id_list.append(cur.fetchone()[0])
     
     cur.execute('CREATE TABLE IF NOT EXISTS Players (id INTEGER PRIMARY KEY, name TEXT, position_id INTEGER, birthyear INTEGER, nationality TEXT)')
 
+    # for i in range(len(id_list)):
+    #     cur.execute("INSERT INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)",
+    #                 (id_list[i], name_list[i], pos_id_list[i], birth_list[i], nation_list[i]))
+        
     for i in range(len(id_list)):
-        cur.execute("INSERT INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)",
+        cur.execute("INSERT OR REPLACE INTO Players (id, name, position_id, birthyear, nationality) VALUES (?, ?, ?, ?, ?)", 
                     (id_list[i], name_list[i], pos_id_list[i], birth_list[i], nation_list[i]))
+    
     conn.commit()
+
 
 
 ## [TASK 2]: 10 points
