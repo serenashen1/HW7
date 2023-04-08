@@ -143,26 +143,35 @@ def nationality_search(countries, cur, conn):
 
 def birthyear_nationality_search(age, country, cur, conn):
     
-    name_list = []
-    nation_list = []
-    birth_list = []
-    tuple_list = []
+    # name_list = []
+    # nation_list = []
+    # birth_list = []
+    # tuple_list = []
 
-    birth_year = 2023 - age
-    cur.execute('SELECT name, nationality, birth_year FROM Players WHERE nationality=? AND birth_year < ?', (country, birth_year))
-    names = cur.fetchall()
+    # birth_year = 2023 - age
+    # cur.execute('SELECT name, nationality, birth_year FROM Players WHERE nationality=? AND birth_year < ?', (country, birth_year))
+    # names = cur.fetchall()
 
-    for name in names:
-        name_list.append(name[0])
-        nation_list.append(name[1])
-        birth_list.append(name[2])
+    # for name in names:
+    #     name_list.append(name[0])
+    #     nation_list.append(name[1])
+    #     birth_list.append(name[2])
 
-    conn.commit()
+    # conn.commit()
     
-    for i in range(len(name_list)):
-        tuple_list.append((name_list[i], nation_list[i], birth_list[i]))
+    # for i in range(len(name_list)):
+    #     tuple_list.append((name_list[i], nation_list[i], birth_list[i]))
 
-    return tuple_list
+    # return tuple_list
+
+    age_list = []
+    age = 2023 - age
+
+    cur.execute("SELECT name, nationality, birthyear FROM Players WHERE birthyear < ? AND nationality = ?", (age, country))
+    for x in cur:
+        age_list.append(x)
+
+    return age_list
 
 
 ## [TASK 4]: 15 points
