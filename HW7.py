@@ -242,14 +242,14 @@ def position_birth_search(position, age, cur, conn):
 #     they have won since the year passed, including the season that ended
 #     the passed year. 
 
-def make_winners_table(data, cur, conn):
-    pass
+# def make_winners_table(data, cur, conn):
+#     pass
 
-def make_seasons_table(data, cur, conn):
-    pass
+# def make_seasons_table(data, cur, conn):
+#     pass
 
-def winners_since_search(year, cur, conn):
-    pass
+# def winners_since_search(year, cur, conn):
+#     pass
 
 
 class TestAllMethods(unittest.TestCase):
@@ -303,22 +303,22 @@ class TestAllMethods(unittest.TestCase):
         self.assertEqual(len(c), 1)
         self.assertEqual(c, [('Teden Mengi', 'Defence', 2002)])
     
-    # test extra credit
-    def test_make_winners_table(self):
-        self.cur2.execute('SELECT * from Winners')
-        winners_list = self.cur2.fetchall()
+    # # test extra credit
+    # def test_make_winners_table(self):
+    #     self.cur2.execute('SELECT * from Winners')
+    #     winners_list = self.cur2.fetchall()
 
-        pass
+    #     pass
 
-    def test_make_seasons_table(self):
-        self.cur2.execute('SELECT * from Seasons')
-        seasons_list = self.cur2.fetchall()
+    # def test_make_seasons_table(self):
+    #     self.cur2.execute('SELECT * from Seasons')
+    #     seasons_list = self.cur2.fetchall()
 
-        pass
+    #     pass
 
-    def test_winners_since_search(self):
+    # def test_winners_since_search(self):
 
-        pass
+    #     pass
 
 
 def main():
@@ -332,11 +332,11 @@ def main():
     conn.close()
 
 
-    seasons_json_data = read_data('football_PL.json')
-    cur2, conn2 = open_database('Football_seasons.db')
-    make_winners_table(seasons_json_data, cur2, conn2)
-    make_seasons_table(seasons_json_data, cur2, conn2)
-    conn2.close()
+    # seasons_json_data = read_data('football_PL.json')
+    # cur2, conn2 = open_database('Football_seasons.db')
+    # make_winners_table(seasons_json_data, cur2, conn2)
+    # make_seasons_table(seasons_json_data, cur2, conn2)
+    # conn2.close()
 
 
 if __name__ == "__main__":
