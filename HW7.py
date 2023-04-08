@@ -142,32 +142,11 @@ def nationality_search(countries, cur, conn):
 
 
 def birthyear_nationality_search(age, country, cur, conn):
-    
-    # name_list = []
-    # nation_list = []
-    # birth_list = []
-    # tuple_list = []
-
-    # birth_year = 2023 - age
-    # cur.execute('SELECT name, nationality, birth_year FROM Players WHERE nationality=? AND birth_year < ?', (country, birth_year))
-    # names = cur.fetchall()
-
-    # for name in names:
-    #     name_list.append(name[0])
-    #     nation_list.append(name[1])
-    #     birth_list.append(name[2])
-
-    # conn.commit()
-    
-    # for i in range(len(name_list)):
-    #     tuple_list.append((name_list[i], nation_list[i], birth_list[i]))
-
-    # return tuple_list
 
     age_list = []
     age = 2023 - age
-
     cur.execute("SELECT name, nationality, birthyear FROM Players WHERE birthyear < ? AND nationality = ?", (age, country))
+    
     for x in cur:
         age_list.append(x)
 
@@ -192,28 +171,16 @@ def birthyear_nationality_search(age, country, cur, conn):
     # HINT: You'll have to use JOIN for this task.
 
 def position_birth_search(position, age, cur, conn):
-    
-    name_list = []
-    pos_list = []
-    birth_list = []
-    tuple_list = []
 
-    birth_year = 2023 - age
-    cur.execute('SELECT name, position, birth_year FROM Players JOIN Positions ON Players.position_id = Positions.id WHERE Positions.position=? AND Players.birth_year > ?', (position, birth_year))
-    players = cur.fetchall()
+    pos_birth_list = []
+    year = 2023 - age
 
-    for player in players:
-        name_list.append(player[0])
-        pos_list.append(player[1])
-        birth_list.append(player[2])
+    cur.execute("SELECT y.name, p.position, y.birthyear FROM Players y JOIN Positions p ON y.position_id = p.id WHERE p.position = ? AND y.birthyear > ?", (position, year))
 
-    conn.commit()
+    for row in cur:
+        pos_birth_list.append(row)
 
-    for i in range(len(name_list)):
-        tuple_list.append((name_list[i], pos_list[i], birth_list[i]))
-
-    return tuple_list
-
+    return pos_birth_list
 
 
 # [EXTRA CREDIT]
